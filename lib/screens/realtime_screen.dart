@@ -11,7 +11,7 @@ class RealtimeScreen extends StatefulWidget {
 
 class _RealtimeScreenState extends State<RealtimeScreen> {
   final List<dynamic> _events = [];
-  late final StreamSubscription<PostgresChangeEvent> _subscription;
+  late final RealtimeChannel _channel;
 
   @override
   void initState() {
@@ -21,10 +21,10 @@ class _RealtimeScreenState extends State<RealtimeScreen> {
 
   void _subscribe() {
     final supabase = Supabase.instance.client;
-    _subscription = supabase
+    _channel = supabase
         .channel('prayers-realtime')
         .onPostgresChanges(
-          event: PostgresChangeEvent.insert,
+          event: PostgresChangeEvent.all,
           schema: 'public',
           table: 'prayers',
           callback: (payload) {
@@ -32,13 +32,14 @@ class _RealtimeScreenState extends State<RealtimeScreen> {
               _events.add(payload);
             });
           },
-        )
-        .subscribe();
+        );
+    _channel.subscribe();
   }
 
   @override
   void dispose() {
-    _subscription.cancel();
+    final supabase = Supabase.instance.client;
+    supabase.removeChannel(_channel);
     super.dispose();
   }
 

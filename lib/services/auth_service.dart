@@ -5,7 +5,7 @@ class AuthService {
 
   // Sign up with email & password
   Future<AuthResponse> signUp(String email, String password) async {
-    final response = await _client.auth.signUp(email, password);
+    final response = await _client.auth.signUp(email: email, password: password);
     return response;
   }
 

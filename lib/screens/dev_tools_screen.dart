@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:typed_data';
 import 'auth_screen.dart';
 import 'realtime_screen.dart';
 
@@ -9,19 +10,13 @@ class DevToolsScreen extends StatelessWidget {
   Future<void> _testSupabase(BuildContext context) async {
     final supabase = Supabase.instance.client;
     try {
-      final response = await supabase.from('test').select().execute();
-      if (response.error == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Supabase test successful: \\${response.data}')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Supabase error: \\${response.error!.message}')),
-        );
-      }
+      final response = await supabase.from('test').select();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Supabase test successful: $response')),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Exception: \\$e')),
+        SnackBar(content: Text('Exception: $e')),
       );
     }
   }
@@ -32,19 +27,13 @@ class DevToolsScreen extends StatelessWidget {
       // Create a simple text file in memory
       final bytes = Uint8List.fromList('Hello from Flutter'.codeUnits);
       final filePath = 'dummy/hello.txt';
-      final response = await supabase.storage.from('public').uploadBinary(filePath, bytes);
-      if (response.error == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Uploaded dummy file to $filePath')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upload error: \\${response.error!.message}')),
-        );
-      }
+      final path = await supabase.storage.from('public').uploadBinary(filePath, bytes);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Uploaded dummy file to $path')),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Exception: \\$e')),
+        SnackBar(content: Text('Exception: $e')),
       );
     }
   }

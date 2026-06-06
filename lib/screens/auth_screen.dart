@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'services/auth_service.dart';
+import '../services/auth_service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -22,13 +22,9 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() => _isLoading = true);
     try {
       final res = await _auth.signUp(_emailCtrl.text, _pwdCtrl.text);
-      if (res.error == null) {
-        _showMessage('Signed up! Check your email for confirmation.');
-      } else {
-        _showMessage('Error: ${res.error!.message}');
-      }
+      _showMessage('Signed up! Check your email for confirmation.');
     } catch (e) {
-      _showMessage('Exception: $e');
+      _showMessage('Error: $e');
     }
     setState(() => _isLoading = false);
   }
@@ -37,13 +33,9 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() => _isLoading = true);
     try {
       final res = await _auth.signIn(_emailCtrl.text, _pwdCtrl.text);
-      if (res.error == null) {
-        _showMessage('Signed in as ${res.data?.user?.email ?? 'unknown'}');
-      } else {
-        _showMessage('Error: ${res.error!.message}');
-      }
+      _showMessage('Signed in as ${res.user?.email ?? 'unknown'}');
     } catch (e) {
-      _showMessage('Exception: $e');
+      _showMessage('Error: $e');
     }
     setState(() => _isLoading = false);
   }

@@ -174,41 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFeatureCard(
-                            id: "nature",
-                            icon: "🌿",
-                            title: "Nature",
-                            subtitle: "Gallery",
-                            cardColor: const Color(0xFF131B2E),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const NatureGalleryScreen()),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildFeatureCard(
-                            id: "allah_names",
-                            icon: "🕌",
-                            title: "Names of Allah",
-                            subtitle: "99 Beautiful Names",
-                            cardColor: const Color(0xFF131B2E),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AllahNamesScreen()),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+
                     // Elegant Date Badge
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -415,7 +381,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 const SizedBox(height: 16),
-                ),
 
                 const SizedBox(height: 25),
 
